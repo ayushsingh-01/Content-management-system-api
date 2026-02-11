@@ -1,32 +1,40 @@
-import Artifact from "../models/artifact.model.js";
+import Artifact from "../models/artifact.js";
 
+/**
+ * Create a new artifact
+ */
 export const createArtifactService = async ({
+  title,
+  content,
+  userId
+}) => {
+  if (!title || !content) {
+    throw new Error("Title and content are required");
+  }
+
+  const artifact = await Artifact.create({
     title,
-    description,
-    author,
     content,
-    tags
-})
+    author: userId
+  });
+
+  return artifact;
+};
 
 
-export const createArtifact = async (req, res) => {
-    try {
-        const artifact = await createArtifactService({
-            title: req.body.title,
-            description: req.body.description,
-            author: req.body.author,
-            content: req.body.content,
-            tags: req.body.tags
-        });
-        res.status(201).json({
-            success: true,
-            message: "Artifact created successfully",
-            artifact
-        });
-    } catch (error) {
-        res.status(400).json({
-            success: false,
-            message: error.message
-        });
-    }
-}
+
+
+
+
+
+
+
+export const getArtifactsService = async ({ userId, role }) => {
+  if (role === "ADMIN") {
+    // Admin sees everything
+    return await Artifact.find().populate("author", "name email role");
+  }
+
+  // Non-admin sees only their own artifacts
+  return await Artifact.find({ author: userId });
+};
