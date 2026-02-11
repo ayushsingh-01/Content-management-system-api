@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.route.js";
-import artifactRoutes from "./routes/artifacts.route.js"
+import artifactRoutes from "./routes/artifacts.routes.js"
 import likes from "./routes/likes.routes.js";
 import comment from "./routes/comment.route.js";
 import cookieParser from "cookie-parser";
