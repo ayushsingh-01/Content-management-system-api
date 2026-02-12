@@ -1,17 +1,13 @@
-import { createArtifactService ,getArtifactsService} from "../services/artifact.service.js";
+import { createArtifactService, getArtifactsService } from "../services/artifact.service.js";
 
-/**
- * POST /artifacts
- */
 export const createArtifact = async (req, res) => {
   try {
     const artifact = await createArtifactService({
       title: req.body.title,
       content: req.body.content,
       userId: req.user.id,
-      filePath: req.file?.path // injected by auth middleware
+      filePath: req.file?.path
     });
-
     res.status(201).json({
       success: true,
       message: "Artifact created successfully",
@@ -24,10 +20,6 @@ export const createArtifact = async (req, res) => {
     });
   }
 };
-
-
-
-
 
 export const getArtifacts = async (req, res) => {
   try {
